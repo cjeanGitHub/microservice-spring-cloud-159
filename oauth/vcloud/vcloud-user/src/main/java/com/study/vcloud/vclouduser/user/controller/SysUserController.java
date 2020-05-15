@@ -5,11 +5,7 @@ import com.study.vcloud.vclouduser.user.bean.UserVo;
 import com.study.vcloud.vclouduser.user.entity.SysUser;
 import com.study.vcloud.vclouduser.user.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
 
@@ -27,6 +23,16 @@ public class SysUserController {
     @Autowired
     private SysUserService sysUserServiceImpl;
 
+
+    /**
+     * @Description 检验权限
+     **/
+    @GetMapping("/hasAuth")
+    public Boolean hasAuth(@RequestParam("url") String url , @RequestParam("userId") Long userId , @RequestParam("method") String method){
+//        return sysUserServiceImpl.hasAuth(url,userId,method);
+        return true;
+    }
+
     /***
      * /**
      * @Author Pan Weilong
@@ -37,14 +43,14 @@ public class SysUserController {
      **/
     @GetMapping("/getUserByUsername/{username}")
     public UserVo getUserByUsername(@PathVariable String username) {
-        EntityWrapper<SysUser> sysUserEntityWrapper = new EntityWrapper<>();
-        sysUserEntityWrapper.eq("username", username);
-        SysUser sysUser = sysUserServiceImpl.selectOne(sysUserEntityWrapper);
-        if (sysUser == null) {
-            return null;
-        }
-        UserVo userVo = new UserVo(sysUser.getUserId().longValue(), sysUser.getUsername(), sysUser.getPassword());
-        System.out.println("1111111");
+//        EntityWrapper<SysUser> sysUserEntityWrapper = new EntityWrapper<>();
+//        sysUserEntityWrapper.eq("username", username);
+//        SysUser sysUser = sysUserServiceImpl.selectOne(sysUserEntityWrapper);
+//        if (sysUser == null) {
+//            return null;
+//        }
+//        UserVo userVo = new UserVo(sysUser.getUserId().longValue(), sysUser.getUsername(), sysUser.getPassword());
+        UserVo userVo = new UserVo(00L, username, "12");
         System.out.println(Objects.toString(userVo));
         return userVo;
     }

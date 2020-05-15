@@ -29,8 +29,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
         UserVoDetail userVoDetail = new UserVoDetail();
         userVoDetail.setUserId(1L);
-        userVoDetail.setUsername("hello");
-        userVoDetail.setPassword("hello");
+//        userVoDetail.setUsername("hello");
+//        userVoDetail.setPassword("hello");
         userVoDetail.setUserId(userVo.getUserId());
         userVoDetail.setUsername(userVo.getUsername());
         userVoDetail.setPassword(userVo.getPassword());

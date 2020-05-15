@@ -2,6 +2,7 @@ package com.study.vcloud.vclouduser.user.bean;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
@@ -12,9 +13,13 @@ import java.io.Serializable;
  */
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class UserVo implements Serializable {
 
     private Long userId;
     private String username;
     private String password;
+
+
+
 }
