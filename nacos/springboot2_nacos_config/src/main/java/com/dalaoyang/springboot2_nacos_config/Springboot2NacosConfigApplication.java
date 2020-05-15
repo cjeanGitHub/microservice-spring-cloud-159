@@ -32,4 +32,8 @@ public class Springboot2NacosConfigApplication {
         return port;
     }
 
+    public String testGit(){
+        return port;
+    }
+
 }
