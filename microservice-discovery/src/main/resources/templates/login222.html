@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+
+</body>
+<script>
+    //创建一个div
+    var div = document.createElement("div");
+    //将div写入body中
+    document.body.appendChild(div);
+    //为div设置样式
+    div.style.width = "800px";
+    div.style.height = "400px";
+    div.style.position = "relative";
+    div.style.border = "1px solid red";
+
+
+    //div的点击事件
+    div.onclick = function () {
+        //创建一个box
+        var box = document.createElement("div");
+        //随机颜色
+        var r = parseInt(Math.random() * 256);
+        var g = parseInt(Math.random() * 256);
+        var b = parseInt(Math.random() * 256);
+        //为box设置样式
+        box.style.width = "20px";
+        box.style.height = "20px";
+        box.style.borderRadius = "50%";
+        box.style.position = "absolute";
+        box.style.left = "0px";
+        box.style.top = "0px";
+        box.style.backgroundColor = "rgb(" + r + "," + g + "," + b + ")";
+        //将box作为div的子集写入
+        div.appendChild(box);
+
+        //随机一个沿着x轴移动的初始值
+        var speedX = parseInt(Math.random() * 10 + 1);
+        console.log(speedX);
+        //随机一个沿着y轴移动的初始值
+        var speedY = parseInt(Math.random() * 10 + 1);
+        console.log(speedY);
+
+        //获得当前box的left值
+        var nowLeft = box.offsetLeft;
+        console.log(nowLeft);
+        //获得当前box的top值
+        var nowTop = box.offsetTop;
+        console.log(nowTop);
+        //获得小球x轴最大的移动距离
+        var maxWidth = div.offsetWidth - box.offsetWidth;
+        console.log(maxWidth);
+        //获得小球y轴最大的移动距离
+        var maxHeight = div.offsetHeight - box.offsetHeight;
+        console.log(maxHeight);
+
+        //计时器进入循环
+        setInterval(function () {
+            console.log(nowLeft);
+            //改变小球的left值
+            nowLeft += speedX;
+            //当小球到达最右边时,获得的速度需要变为负值
+            if (nowLeft >= maxWidth) {
+                speedX = parseInt(Math.random() * 10 + 1);
+                speedX = -speedX;
+            }
+            //当小球再次到达最左边的时候,获得的速度是正值
+            if (nowLeft <= 0) {
+                speedX = parseInt(Math.random() * 10 + 1);
+            }
+            //为小球设置left值
+            box.style.left = nowLeft + "px";
+
+            //改变小球的top值
+            nowTop += speedY;
+            //当小球到达最底部的时候,速度变成负值
+            if (nowTop >= maxHeight) {
+                speedY = parseInt(Math.random() * 10 + 1);
+                speedY = -speedY;
+            }
+            //当小球再次到达最顶部小球的速度为正值
+            if (nowTop <= 0) {
+                speedY = parseInt(Math.random() * 10 + 1);
+            }
+            //为小球设置top值
+            box.style.top = nowTop + "px";
+
+        }, 30);
+
+    }
+
+
+</script>
+
+</html>

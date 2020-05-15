@@ -1,0 +1,72 @@
+spring:
+  profiles:
+        active: dev
+#    active: dev
+#    active: test
+#management:
+#  endpoint:
+#    shutdown:
+#      enabled: false
+#  endpoints:
+#    web:
+#      exposure:
+#        include: "*" #直接开启和暴露所有端点 注意在使用Http访问端点时，需要加上默认/actuator 前缀 2.0及以后
+
+management:
+  security:
+    enabled: false  #false:来暴露所有端点 2.0之前
+---
+spring:
+  profiles: dev
+  application:
+    name: client-git
+  cloud:
+    config:
+      name: config
+      uri: http://127.0.0.1:8053/
+      label: master
+      profile: dev
+
+---
+spring:
+  profiles: test
+  application:
+    name: client-git
+  cloud:
+    config:
+      name: config
+      uri: http://127.0.0.1:8053/
+      label: master
+      profile: test
+
+---
+spring:
+  profiles: prod
+  application:
+    name: client-git
+  cloud:
+    name: config
+    config:
+      name: config
+      uri: http://127.0.0.1:8053/
+      label: master
+      profile: prod
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

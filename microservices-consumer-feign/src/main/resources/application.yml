@@ -1,0 +1,14 @@
+server:
+  port: 8031 #服务启动端口
+spring:
+  application:
+    name: client-feign #服务名称
+eureka:
+  client:
+    register-with-eureka: true #true：自我注册，false：自己就是注册中心，不用注册自己
+    fetch-registry: true #要不要去注册中心获取其他服务的地址 true：要，false：不要
+    service-url:
+      defaultZone: http://localhost:8001/eureka/ #设置与Eureka Server交互的地址，查询服务和注册服务都需要依赖这个地址。
+feign:
+  hystrix:
+    enabled: true #Feign使用Hystrix进行熔断

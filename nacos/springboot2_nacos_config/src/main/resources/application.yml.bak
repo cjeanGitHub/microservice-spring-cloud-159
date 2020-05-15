@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: springboot2-nacos-config
+  # nacos config
+  cloud:
+    nacos:
+      config:
+        server-addr: 192.168.0.102:8848
+        # 配置文件后缀名为yaml
+        file-extension: yaml
+
+
+server:
+  port: 8888
+
+hengboy:
+  name: chu
+  age: 12
+

@@ -1,0 +1,16 @@
+spring:
+  cloud:
+    config:
+      discovery:
+        serviceId: springcloud-config-server  #从服务上获取配置文件 配置中心的servieId，即服务名
+        enabled: true  # 是从配置中心读取文件
+      profile: pro
+      name: configtest
+      label: master
+
+eureka:
+  client:
+    register-with-eureka: true #
+    fetch-registry: true #
+    serviceUrl:
+      defaultZone: http://localhost:8001/eureka/

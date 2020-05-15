@@ -1,0 +1,14 @@
+server:
+  port: 8052
+
+#http://localhost:8052/client2-dev.yml  http://localhost:8052/client-dev.yml  通过路由根据文件名获取文件内容
+spring:
+  profiles:
+    active: native  #使用本地配置文件
+  cloud:
+    config:
+      server:
+        native:
+          searchLocations: classpath:/config
+#          searchLocations: D:/cjean/confc,classpath:/config
+#          searchLocations: /cjean/conf,classpath:/config

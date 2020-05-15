@@ -1,0 +1,21 @@
+
+
+
+#暂不可用
+
+server:
+  port: 8090
+
+spring:
+  cloud:
+    consul:
+      host: localhost
+      port: 8600
+      discovery:
+        health-check-path: ${management.contextPath}/health
+        health-check-interval: 15s
+        instance-id: server-consul-miya
+  application:
+    name: server-consul-miya
+
+

@@ -1,0 +1,29 @@
+spring:
+  profiles:
+    active: prod
+#    active: dev
+#management:
+#  security:
+#    enabled: false
+---
+spring:
+  profiles: prod
+  application:
+    name: client
+  cloud:
+    config:
+      uri: http://127.0.0.1:8052
+      label: master
+      profile: prod
+
+
+---
+spring:
+  profiles: dev
+  application:
+    name: client
+  cloud:
+    config:
+      uri: http://127.0.0.1:8052
+      label: master
+      profile: dev

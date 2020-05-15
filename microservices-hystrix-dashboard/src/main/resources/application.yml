@@ -1,0 +1,5 @@
+server:
+  port: 8041 #服务启动端口
+spring:
+  application:
+    name: hystrix-dashboard #服务名称
