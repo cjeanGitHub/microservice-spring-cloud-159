@@ -6,7 +6,7 @@ spring:
     name: vcloud-user-server
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://192.168.0.102:3306/blueroc_mk?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false
+    url: jdbc:mysql://192.168.0.102:3306/vcloud?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false
 #    url: jdbc:mysql://192.168.101.100:3306/vcloud?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false
     username: root
     password: mysql@lanpeng2018
