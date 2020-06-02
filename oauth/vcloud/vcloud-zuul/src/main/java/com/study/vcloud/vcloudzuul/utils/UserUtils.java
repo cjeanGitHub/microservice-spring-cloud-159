@@ -20,7 +20,8 @@ public class UserUtils {
     /**
      * token分割符
      */
-    private static String TOKEN_SPLIT = "bearer ";
+//    private static String TOKEN_SPLIT = "bearer ";
+    private static String TOKEN_SPLIT = "Bearer ";
 
     public static Integer getUserId(String str) {
         JSONObject json = JSONObject.parseObject(str);

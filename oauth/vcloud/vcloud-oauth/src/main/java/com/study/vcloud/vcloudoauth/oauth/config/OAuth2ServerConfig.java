@@ -32,6 +32,9 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 认证中心服务配置
+ */
 @Configuration
 @Order(Integer.MIN_VALUE)
 @EnableAuthorizationServer
@@ -68,10 +71,19 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
         @Autowired
         private RedisConnectionFactory redisConnectionFactory;
 
+
+        /**
+         * 用于定义客户端详细信息服务的配置程序。可以初始化客户端详细信息，也可以只引用现有商店。
+         *
+         * @param clients
+         * @throws Exception
+         */
         @Override
         public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
             //配置客户端
-            clients.inMemory().withClient(CLIENT_ID)
+            clients
+                    .inMemory()
+                    .withClient(CLIENT_ID)
                     .resourceIds(DEMO_RESOURCE_ID)
                     .authorizedGrantTypes("password", "refresh_token")
                     .scopes(SCOPE)
@@ -79,13 +91,21 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
                     .secret(CLIENT_SECRET);
         }
 
+        /**
+         * 定义授权和令牌端点以及令牌服务
+         *
+         * @param endpoints
+         * @throws Exception
+         */
         @Override
         public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
             TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
+            //令牌增强
             tokenEnhancerChain.setTokenEnhancers(Arrays.asList(tokenEnhancer(), accessTokenConverter()));
             endpoints
-                    .tokenEnhancer(tokenEnhancerChain)
                     .tokenStore(redisTokenStore())
+                    .tokenEnhancer(tokenEnhancerChain)
+                    //配置JwtAccessToken转换器
                     .accessTokenConverter(accessTokenConverter())
                     .authenticationManager(authenticationManager)
                     .userDetailsService(userDetailsService)
@@ -98,16 +118,23 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
 
         /**
          * tokenstore 定制化处理
+         *
          * @return TokenStore
          */
         @Bean
         public TokenStore redisTokenStore() {
             RedisTokenStore tokenStore = new RedisTokenStore(redisConnectionFactory);
             //redis key 前缀
-            tokenStore.setPrefix(DEMO_RESOURCE_ID+"_");
+            tokenStore.setPrefix(DEMO_RESOURCE_ID + "_");
             return tokenStore;
         }
 
+        /**
+         * 定义令牌端点上的安全性约 束
+         *
+         * @param security
+         * @throws Exception
+         */
         @Override
         public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
             security
@@ -117,6 +144,8 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
         }
 
         /**
+         * 定义jwt的生成方式
+         *
          * @Author Pan Weilong
          * @Description jwt加密秘钥
          * @Date 17:58 2019/7/10
@@ -129,19 +158,21 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
         }
 
         /**
-         * jwt 生成token 定制化处理
+         * jwt 生成token 定制化处理（令牌增强）
+         *
          * @return TokenEnhancer
          */
         @Bean
         public TokenEnhancer tokenEnhancer() {
+
             return (accessToken, authentication) -> {
                 UserVoDetail userDto = (UserVoDetail) authentication.getUserAuthentication().getPrincipal();
                 final Map<String, Object> additionalInfo = new HashMap<>(1);
                 additionalInfo.put("license", DEMO_RESOURCE_ID);
-                additionalInfo.put("userId" , userDto.getUserId());
-                additionalInfo.put("msg" , "携带信息....");
-                OAuth2Authentication authentication1 = authentication;
-                OAuth2AccessToken accessToken1 = accessToken;
+                additionalInfo.put("userId", userDto.getUserId());
+                additionalInfo.put("msg", "携带信息....");
+//                OAuth2Authentication authentication1 = authentication;
+//                OAuth2AccessToken accessToken1 = accessToken;
                 ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
                 //设置token的过期时间30分钟
                 Calendar nowTime = Calendar.getInstance();
@@ -149,6 +180,33 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
                 ((DefaultOAuth2AccessToken) accessToken).setExpiration(nowTime.getTime());
                 return accessToken;
             };
+
+        }
+
+        class CustomTokenEchancer implements TokenEnhancer {
+
+            @Override
+            public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
+
+                if (accessToken instanceof DefaultOAuth2AccessToken) {
+                    UserVoDetail userDto = (UserVoDetail) authentication.getUserAuthentication().getPrincipal();
+                    final Map<String, Object> additionalInfo = new HashMap<>(1);
+                    additionalInfo.put("license", DEMO_RESOURCE_ID);
+                    additionalInfo.put("userId", userDto.getUserId());
+                    additionalInfo.put("msg", "携带信息....");
+
+                    DefaultOAuth2AccessToken accessToken1 = ((DefaultOAuth2AccessToken) accessToken);
+                    accessToken1.setAdditionalInformation(additionalInfo);
+                    //设置token的过期时间30分钟
+                    Calendar nowTime = Calendar.getInstance();
+                    nowTime.add(Calendar.MINUTE, 30);
+                    accessToken1.setExpiration(nowTime.getTime());
+                    return accessToken1;
+
+                }
+
+                return null;
+            }
         }
 
 

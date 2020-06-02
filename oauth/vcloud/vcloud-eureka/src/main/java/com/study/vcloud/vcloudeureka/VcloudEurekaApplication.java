@@ -22,6 +22,7 @@ public class VcloudEurekaApplication {
     public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         @Override
         protected void configure(HttpSecurity http) throws Exception {
+            // 禁止跨站访问
             http.csrf().disable().httpBasic();
             super.configure(http);
         }

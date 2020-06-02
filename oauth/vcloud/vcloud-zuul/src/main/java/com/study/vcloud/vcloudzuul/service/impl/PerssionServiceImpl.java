@@ -5,6 +5,7 @@ import com.study.vcloud.vcloudzuul.service.PerssionService;
 import com.study.vcloud.vcloudzuul.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.jwt.Jwt;
 import org.springframework.security.jwt.JwtHelper;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Service;
@@ -38,7 +39,10 @@ public class PerssionServiceImpl implements PerssionService {
 
     private boolean checkUserPermission(HttpServletRequest request, Authentication authentication) {
         //获取用户的userId
-        Integer userId = UserUtils.getUserId(JwtHelper.decode(UserUtils.getToken(request)).getClaims());
+        String token = UserUtils.getToken(request);
+        Jwt decodeToken = JwtHelper.decode(token);
+        String claims = decodeToken.getClaims();
+        Integer userId = UserUtils.getUserId(claims);
         String url = request.getRequestURI();
         String method = request.getMethod();
         userId = null == userId ? 0: userId;

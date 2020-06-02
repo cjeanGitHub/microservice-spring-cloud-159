@@ -45,12 +45,12 @@ public class SysUserController {
     public UserVo getUserByUsername(@PathVariable String username) {
         EntityWrapper<SysUser> sysUserEntityWrapper = new EntityWrapper<>();
         sysUserEntityWrapper.eq("username", username);
-        SysUser sysUser = sysUserServiceImpl.selectOne(sysUserEntityWrapper);
-        if (sysUser == null) {
-            return null;
-        }
-        UserVo userVo = new UserVo(sysUser.getUserId().longValue(), sysUser.getUsername(), sysUser.getPassword());
-//        UserVo userVo = new UserVo(02L, username, "12");
+//        SysUser sysUser = sysUserServiceImpl.selectOne(sysUserEntityWrapper);
+//        if (sysUser == null) {
+//            return null;
+//        }
+//        UserVo userVo = new UserVo(sysUser.getUserId().longValue(), sysUser.getUsername(), sysUser.getPassword());
+        UserVo userVo = new UserVo(102L, username, "123456");
         System.out.println(Objects.toString(userVo));
         return userVo;
     }

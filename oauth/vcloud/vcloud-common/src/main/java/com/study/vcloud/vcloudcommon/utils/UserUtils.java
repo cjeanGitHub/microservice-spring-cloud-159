@@ -29,7 +29,8 @@ public class UserUtils {
      **/
     private static String getToken(HttpServletRequest request) {
         String token = request.getHeader("Authorization");
-        return StringUtils.substringAfter(token, "bearer ");
+//        return StringUtils.substringAfter(token, "bearer ");
+        return StringUtils.substringAfter(token, "Bearer ");
     }
 
 
